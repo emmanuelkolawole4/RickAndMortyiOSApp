@@ -46,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func makeWindow(withScene windowScene: UIWindowScene) {
         let window = UIWindow(windowScene: windowScene)
-        let rootViewController = ViewController()
+        let rootViewController = RMTabbarController()
         
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
