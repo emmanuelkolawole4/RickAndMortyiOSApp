@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct RMLocation: Decodable {
+    let id: Int
+    let residents: [String]
+    let name, url, type, dimension, created: String
+}
