@@ -45,7 +45,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported!!! init(coder:) has not been implemented")
+        fatalError("Unsupported: init(coder:) has not been implemented")
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

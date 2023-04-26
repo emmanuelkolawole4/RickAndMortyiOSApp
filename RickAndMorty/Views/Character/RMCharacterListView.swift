@@ -51,7 +51,7 @@ final class RMCharacterListView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("Unsupported!!! init(coder:) has not been implemented")
+        fatalError("Unsupported: init(coder:) has not been implemented")
     }
     
     private func addConstraints() {
