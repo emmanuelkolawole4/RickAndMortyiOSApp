@@ -25,7 +25,6 @@ final class RMEpisodeDetailViewController: UIViewController {
         super.viewDidLoad()
         title = "Episode"
         view.backgroundColor = .systemBackground
-        print(url)
         
     }
 }
