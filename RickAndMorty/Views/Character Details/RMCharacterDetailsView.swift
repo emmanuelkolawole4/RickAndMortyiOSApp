@@ -55,7 +55,7 @@ final class RMCharacterDetailsView: UIView {
     
     private func createCollectionView() -> UICollectionView {
         let layout = UICollectionViewCompositionalLayout { sectionIdx, _ in
-            self.createSection(for: sectionIdx)
+            self.createLayout(for: sectionIdx)
         }
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(RMCharacterPhotoCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterPhotoCollectionViewCell.identifier)
@@ -65,7 +65,7 @@ final class RMCharacterDetailsView: UIView {
         return collectionView
     }
     
-    private func createSection(for sectionIdx: Int) -> NSCollectionLayoutSection {
+    private func createLayout(for sectionIdx: Int) -> NSCollectionLayoutSection {
         let sectionTypes = vm.sections
         
         switch sectionTypes[sectionIdx] {

@@ -18,6 +18,16 @@ final class RMLocationViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .systemBackground
         title = "Locations"
+        addSearchBtn()
     }
-
+    
+    private func addSearchBtn() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearchBtn))
+    }
+    
+    @objc private func didTapSearchBtn() {
+        let vc = RMSearchViewController(config: RMSearchViewController.SearchConfig(type: .location))
+        navigationController?.pushViewController(vc, animated: true)
+        navigationItem.largeTitleDisplayMode = .never
+    }
 }

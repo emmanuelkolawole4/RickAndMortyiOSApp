@@ -23,6 +23,11 @@ final class RMCharacterViewController: UIViewController {
         
         view.addSubview(characterListView)
         addConstraints()
+        addSearchBtn()
+    }
+    
+    private func addSearchBtn() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearchBtn))
     }
 
     private func addConstraints() {
@@ -33,6 +38,10 @@ final class RMCharacterViewController: UIViewController {
             characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
         ])
+    }
+    
+    @objc private func didTapSearchBtn() {
+        
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 /// Controller to house tabs and root tab controllers
 final class RMTabbarController: UITabBarController {
@@ -41,3 +42,10 @@ final class RMTabbarController: UITabBarController {
     }
 }
 
+struct PreviewViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        ViewControllerPreview {
+            RMTabbarController()
+        }
+    }
+}

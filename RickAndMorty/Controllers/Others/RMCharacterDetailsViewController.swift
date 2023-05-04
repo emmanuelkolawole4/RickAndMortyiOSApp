@@ -102,7 +102,6 @@ extension RMCharacterDetailsViewController: UICollectionViewDataSource {
             ) as? RMCharacterEpisodeCollectionViewCell else {
                 fatalError("Unsupported")
             }
-            print(vms)
             cell.configure(with: vms[indexPath.row])
             return cell
         }
@@ -122,7 +121,7 @@ extension RMCharacterDetailsViewController: UICollectionViewDelegate {
         case .episodes(_):
             let episodes = self.vm.episodes
             let selection = episodes[indexPath.row]
-            let vc = RMEpisodeDetailViewController(url: URL(string: selection))
+            let vc = RMEpisodeDetailsViewController(url: URL(string: selection))
             navigationController?.pushViewController(vc, animated: true)
         }
     }
