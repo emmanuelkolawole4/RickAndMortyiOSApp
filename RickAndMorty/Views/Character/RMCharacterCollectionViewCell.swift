@@ -87,7 +87,7 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         statusLabel.text = nil
     }
     
-    public func configure(with vm: RMCharacterCollectionViewCellViewModel) {
+    func configure(with vm: RMCharacterCollectionViewCellViewModel) {
         nameLabel.text = vm.characterName
         statusLabel.text = vm.characterStatusText
         vm.downloadImage { [weak self] result in

@@ -1,22 +1,22 @@
 //
-//  RMEpisodeDetailsView.swift
+//  RMLocationDetailsView.swift
 //  RickAndMorty
 //
-//  Created by ULU on 27/04/2023.
+//  Created by ULU on 14/05/2023.
 //
 
 import UIKit
 
-protocol RMEpisodeDetailsViewDelegate: AnyObject {
-    func rmEpisodeDetailsView(_ rmEpisodeDetailsView: RMEpisodeDetailsView, didSelect character: RMCharacter)
+protocol RMLocationDetailsViewDelegate: AnyObject {
+    func rmLocationDetailsView(_ rmLocationDetailsView: RMLocationDetailsView, didSelect character: RMCharacter)
 }
 
-final class RMEpisodeDetailsView: UIView {
+final class RMLocationDetailsView: UIView {
     
     private var collectionView: UICollectionView?
-    weak var delegate: RMEpisodeDetailsViewDelegate?
+    weak var delegate: RMLocationDetailsViewDelegate?
     
-    private var vm: RMEpisodeDetailsViewViewModel? {
+    private var vm: RMLocationDetailsViewViewModel? {
         didSet {
             spinner.stopAnimating()
             collectionView?.reloadData()
@@ -33,7 +33,7 @@ final class RMEpisodeDetailsView: UIView {
         spinner.translatesAutoresizingMaskIntoConstraints = false
         return spinner
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
@@ -80,81 +80,14 @@ final class RMEpisodeDetailsView: UIView {
         return collectionView
     }
     
-    func configure(with vm: RMEpisodeDetailsViewViewModel) {
+    func configure(with vm: RMLocationDetailsViewViewModel) {
         self.vm = vm
     }
-}
-
-
-extension RMEpisodeDetailsView: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return vm?.cellViewModelsSections.count ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let vm = vm else { return 0 }
-        let sectionType = vm.cellViewModelsSections[section]
-        
-        switch sectionType {
-        case .information(let vms):
-            return vms.count
-        case .characters(let vms):
-            return vms.count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let vm = vm else { fatalError("No ViewModel") }
-        let sectionType = vm.cellViewModelsSections[indexPath.section]
-        
-        switch sectionType {
-        case .information(let vms):
-            let cellVM = vms[indexPath.row]
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: RMEpisodeInfoCollectionViewCell.identifier,
-                for: indexPath
-            ) as? RMEpisodeInfoCollectionViewCell else {
-                fatalError("Unsupported cell")
-            }
-            cell.configure(with: cellVM)
-            return cell
-        case .characters(let vms):
-            let cellVM = vms[indexPath.row]
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: RMCharacterCollectionViewCell.identifier,
-                for: indexPath
-            ) as? RMCharacterCollectionViewCell else {
-                fatalError("Unsupported cell")
-            }
-            cell.configure(with: cellVM)
-            return cell
-        }
-    }
     
     
 }
 
-extension RMEpisodeDetailsView: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        guard let vm = vm else { fatalError("No ViewModel") }
-        let sections = vm.cellViewModelsSections
-        let sectionType = sections[indexPath.section]
-        
-        switch sectionType {
-        case .information:
-            break
-        case .characters:
-            guard let character = vm.character(at: indexPath.row) else { return }
-            delegate?.rmEpisodeDetailsView(self, didSelect: character)
-        }
-    }
-}
-
-extension RMEpisodeDetailsView {
+extension RMLocationDetailsView {
     
     private func createLayout(for sectionIdx: Int) -> NSCollectionLayoutSection {
         guard let sections = vm?.cellViewModelsSections else {
@@ -213,3 +146,75 @@ extension RMEpisodeDetailsView {
         return section
     }
 }
+
+extension RMLocationDetailsView: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return vm?.cellViewModelsSections.count ?? 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let vm = vm else { return 0 }
+        let sectionType = vm.cellViewModelsSections[section]
+
+        switch sectionType {
+        case .information(let vms):
+            return vms.count
+        case .characters(let vms):
+            return vms.count
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let vm = vm else { fatalError("No ViewModel") }
+        let sectionType = vm.cellViewModelsSections[indexPath.section]
+
+        switch sectionType {
+        case .information(let vms):
+            let cellVM = vms[indexPath.row]
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: RMEpisodeInfoCollectionViewCell.identifier,
+                for: indexPath
+            ) as? RMEpisodeInfoCollectionViewCell else {
+                fatalError("Unsupported cell")
+            }
+            cell.configure(with: cellVM)
+            return cell
+        case .characters(let vms):
+            let cellVM = vms[indexPath.row]
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: RMCharacterCollectionViewCell.identifier,
+                for: indexPath
+            ) as? RMCharacterCollectionViewCell else {
+                fatalError("Unsupported cell")
+            }
+            cell.configure(with: cellVM)
+            return cell
+        }
+    }
+    
+    
+}
+
+ extension RMLocationDetailsView: UICollectionViewDelegate {
+     
+     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//         collectionView.deselectItem(at: indexPath, animated: true)
+//
+//         guard let vm = vm else { fatalError("No ViewModel") }
+//         let sections = vm.cellViewModelsSections
+//         let sectionType = sections[indexPath.section]
+//
+//         switch sectionType {
+//         case .information:
+//             break
+//         case .characters:
+//             guard let character = vm.character(at: indexPath.row) else { return }
+//             delegate?.rmEpisodeDetailsView(self, didSelect: character)
+//         }
+     }
+ }
+
+ 
+ 
+

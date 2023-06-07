@@ -24,7 +24,7 @@ struct ViewControllerPreview: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        
+        // Not needed
     }
     
 }

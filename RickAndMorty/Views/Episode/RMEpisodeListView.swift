@@ -81,7 +81,7 @@ extension RMEpisodeListView: RMEpisodeListViewViewModelDelegate {
         collectionView.isHidden = false
         collectionView.reloadData() // note: for initial fetch only. since there's pagination implemented, we don't want to reload the whole collection when we get more data and pop the user back to the top
         
-        UIView.animate(withDuration: 0.4) { [weak self] in
+        UIView.animate(withDuration: 0.3) { [weak self] in
             self?.collectionView.alpha = 1
         }
     }

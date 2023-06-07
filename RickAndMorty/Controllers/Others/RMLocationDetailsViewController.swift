@@ -1,20 +1,21 @@
 //
-//  RMEpisodeDetailViewController.swift
+//  RMLocationDetailViewController.swift
 //  RickAndMorty
 //
-//  Created by ULU on 26/04/2023.
+//  Created by ULU on 14/05/2023.
 //
 
 import UIKit
 
-/// VC to show details about single episode
-final class RMEpisodeDetailsViewController: UIViewController {
+/// VC to show details about single location
+final class RMLocationDetailsViewController: UIViewController {
+
+    private let detailsView = RMLocationDetailsView()
+    private let vm: RMLocationDetailsViewViewModel
     
-    private let detailsView = RMEpisodeDetailsView()
-    private let vm: RMEpisodeDetailsViewViewModel
-    
-    init(url: URL?) {
-        self.vm = RMEpisodeDetailsViewViewModel(endpointUrl: url)
+    init(location: RMLocation) {
+        let url = URL(string: location.url)
+        self.vm = RMLocationDetailsViewViewModel(endpointUrl: url)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,12 +28,12 @@ final class RMEpisodeDetailsViewController: UIViewController {
         setupUI()
         detailsView.delegate = self
         vm.delegate = self
-        vm.getEpisodeData()
+        vm.getLocationData()
     }
     
     private func setupUI() {
+        title = "Location"
         view.backgroundColor = .systemBackground
-        title = "Episode"
         view.addSubview(detailsView)
         addConstraints()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(didTapShareBtn))
@@ -52,16 +53,16 @@ final class RMEpisodeDetailsViewController: UIViewController {
     }
 }
 
-extension RMEpisodeDetailsViewController: RMEpisodeDetailsViewViewModelDelegate {
+extension RMLocationDetailsViewController: RMLocationDetailsViewViewModelDelegate {
     
-    func didGetEpisodeDetails() {
+    func didGetLocationDetails() {
         detailsView.configure(with: vm)
     }
 }
 
-extension RMEpisodeDetailsViewController: RMEpisodeDetailsViewDelegate {
+extension RMLocationDetailsViewController: RMLocationDetailsViewDelegate {
     
-    func rmEpisodeDetailsView(_ rmEpisodeDetailsView: RMEpisodeDetailsView, didSelect character: RMCharacter) {
+    func rmLocationDetailsView(_ rmLocationDetailsView: RMLocationDetailsView, didSelect character: RMCharacter) {
         let vc = RMCharacterDetailsViewController(vm: .init(character: character))
         navigationController?.pushViewController(vc, animated: true)
     }

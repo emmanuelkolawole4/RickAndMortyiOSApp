@@ -82,7 +82,7 @@ extension RMCharacterDetailsViewController: UICollectionViewDataSource {
                 withReuseIdentifier: RMCharacterPhotoCollectionViewCell.identifier,
                 for: indexPath
             ) as? RMCharacterPhotoCollectionViewCell else {
-                fatalError("Unsupported")
+                fatalError("Unsupported cell")
             }
             cell.configure(with: vm)
             return cell
@@ -91,7 +91,7 @@ extension RMCharacterDetailsViewController: UICollectionViewDataSource {
                 withReuseIdentifier: RMCharacterInfoCollectionViewCell.identifier,
                 for: indexPath
             ) as? RMCharacterInfoCollectionViewCell else {
-                fatalError("Unsupported")
+                fatalError("Unsupported cell")
             }
             cell.configure(with: vms[indexPath.row])
             return cell
@@ -100,7 +100,7 @@ extension RMCharacterDetailsViewController: UICollectionViewDataSource {
                 withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.identifier,
                 for: indexPath
             ) as? RMCharacterEpisodeCollectionViewCell else {
-                fatalError("Unsupported")
+                fatalError("Unsupported cell")
             }
             cell.configure(with: vms[indexPath.row])
             return cell

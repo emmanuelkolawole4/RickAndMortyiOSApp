@@ -1,49 +1,49 @@
 //
-//  RMEpisodeDetailsViewViewModel.swift
+//  RMLocationDetailsViewViewModel.swift
 //  RickAndMorty
 //
-//  Created by ULU on 27/04/2023.
+//  Created by ULU on 14/05/2023.
 //
 
 import Foundation
 
-protocol RMEpisodeDetailsViewViewModelDelegate: AnyObject {
-    func didGetEpisodeDetails()
+protocol RMLocationDetailsViewViewModelDelegate: AnyObject {
+    func didGetLocationDetails()
 }
 
-final class RMEpisodeDetailsViewViewModel {
+final class RMLocationDetailsViewViewModel {
     
     private let endpointUrl: URL?
-    weak var delegate: RMEpisodeDetailsViewViewModelDelegate?
+    weak var delegate: RMLocationDetailsViewViewModelDelegate?
     
     enum SectionType {
         case information(vms: [RMEpisodeInfoCollectionViewCellViewModel])
         case characters(vms: [RMCharacterCollectionViewCellViewModel])
     }
     
-     private(set) var cellViewModelsSections: [SectionType] = []
+    private(set) var cellViewModelsSections: [SectionType] = []
     
-    private var dataTuple: (episode: RMEpisode, characters: [RMCharacter])? {
+    private var dataTuple: (location: RMLocation, characters: [RMCharacter])? {
         didSet {
             setupCellViewModelsSections()
-            delegate?.didGetEpisodeDetails()
+            delegate?.didGetLocationDetails()
         }
     }
     
     init(endpointUrl: URL?) {
         self.endpointUrl = endpointUrl
-     }
+    }
     
-    /// get backing episode model
-    func getEpisodeData() {
+    /// get backing location model
+    func getLocationData() {
         guard let url = endpointUrl, let request = RMRequest(url: url) else {
             return
         }
         
-        RMService.shared.execute(request, expecting: RMEpisode.self) { [weak self] result in
+        RMService.shared.execute(request, expecting: RMLocation.self) { [weak self] result in
             switch result {
-            case .success(let episode):
-                self?.getRelatedCharacters(in: episode)
+            case .success(let location):
+                self?.getResidentCharacters(from: location)
             case .failure(let failure):
                 print(String(describing: failure))
             }
@@ -57,18 +57,18 @@ final class RMEpisodeDetailsViewViewModel {
     
     private func setupCellViewModelsSections() {
         guard let dataTuple = dataTuple else { return }
-        let episode = dataTuple.episode
+        let location = dataTuple.location
         let characters = dataTuple.characters
-        var createdDateString = episode.created
-        if let createdDate = RMCharacterInfoCollectionViewCellViewModel.dateFormatter.date(from: episode.created) {
+        var createdDateString = location.created
+        if let createdDate = RMCharacterInfoCollectionViewCellViewModel.dateFormatter.date(from: location.created) {
             createdDateString = RMCharacterInfoCollectionViewCellViewModel.shortDateFormatter.string(from: createdDate)
         }
         
         cellViewModelsSections = [
             .information(vms: [
-                .init(title: "Episode Name", value: episode.name),
-                .init(title: "Air Date", value: episode.airDate),
-                .init(title: "Episode", value: episode.episode),
+                .init(title: "Location Name", value: location.name),
+                .init(title: "Type", value: location.type),
+                .init(title: "Dimension", value: location.dimension),
                 .init(title: "Created", value: createdDateString),
             ]),
             .characters(vms: characters
@@ -83,8 +83,8 @@ final class RMEpisodeDetailsViewViewModel {
         ]
     }
     
-    private func getRelatedCharacters(in episode: RMEpisode) {
-        let requests: [RMRequest] = episode.characters
+    private func getResidentCharacters(from location: RMLocation) {
+        let requests: [RMRequest] = location.residents
             .compactMap { URL(string: $0) }
             .compactMap { RMRequest(url: $0) }
         
@@ -110,9 +110,10 @@ final class RMEpisodeDetailsViewViewModel {
         
         dispatchGroup.notify(queue: .main) {
             self.dataTuple = (
-                episode: episode,
+                location: location,
                 characters: characters
             )
         }
     }
+    
 }
